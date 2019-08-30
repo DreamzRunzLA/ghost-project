@@ -13,5 +13,20 @@ class Game
 
     end
 
+    def self.current_player
+
+    end
+
+    def self.previous_player
+
+    end
+
+    def self.next_player!
+
+    end
+
+    
+
+
 
 end
