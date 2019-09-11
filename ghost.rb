@@ -10,7 +10,8 @@ class Game
     end
 
     def self.play_round
-
+        self.take_turn(self.current_player)
+        self.next_player!
     end
 
     def self.current_player
@@ -33,7 +34,7 @@ class Game
             p "invalid play"
             self.take_turn(player)
         else
-            @fragment += string
+            @fragment += input
             return @fragment
         end
     end
@@ -50,7 +51,5 @@ class Game
         end
         return true
     end
-
-
 
 end
