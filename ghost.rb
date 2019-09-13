@@ -13,6 +13,12 @@ class Game
         end
     end
 
+    def run
+        while @losses.has_value?(5) == false
+            self.play_round
+        end
+    end
+
     def play_round
         self.take_turn(self.current_player)
         if @dictionary.has_value?(@fragment) == true
