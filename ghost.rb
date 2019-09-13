@@ -15,8 +15,8 @@ class Game
 
     def play_round
         self.take_turn(self.current_player)
-        if @dictionary.include?(@fragment) == true
-            @losses[self.current_playername] += 1
+        if @dictionary.has_value?(@fragment) == true
+            @losses[self.previous_player.name] += 1
             @fragment = ''
         end
         self.next_player!
@@ -44,7 +44,6 @@ class Game
             self.take_turn(player)
         else
             @fragment += input
-            return @fragment
         end
     end
 
