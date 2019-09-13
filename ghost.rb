@@ -2,37 +2,43 @@ require_relative 'player.rb'
 require 'pry'
 
 class Game
-    def initialize(player1, player2)
-        @player1 = player1
-        @player2 = player2
+    def initialize(*args)
+        @players = args
+        @index = 0
         @fragment = ''
         @dictionary = {}
+        @losses = Hash[@players.collect { |item| [item.name, 0] } ]
         File.readlines('dictionary.txt').each_with_index do |word, i|
             @dictionary.merge!({i => word.delete!("\n")})
         end
     end
 
-    def self.play_round
+    def play_round
         self.take_turn(self.current_player)
+        if @dictionary.include?(@fragment) == true
+            @losses[self.current_playername] += 1
+            @fragment = ''
+        end
         self.next_player!
     end
 
-    def self.current_player
-        @player1
+    def current_player
+        @players[@index]
     end
 
-    def self.previous_player
-        @player2
+    def previous_player(player = @player2)
+        @players[@index - 1]
     end
 
-    def self.next_player!
-        temp = self.current_player
-        self.current_player = self.previous_player
-        self.previous_player = temp
+    def next_player!
+        @index += 1
+        if @index == @players.length
+            @index = @index - @players.length
+        end
     end
 
-    def self.take_turn(player)
-        input = gets.chomp
+    def take_turn(player)
+        input = player.guess
         if valid_play?(input) == false
             p "invalid play"
             self.take_turn(player)
@@ -55,4 +61,22 @@ class Game
         return true
     end
 
+    def getFragment
+        @fragment
+    end
+
+    def getPlayers
+        @players
+    end
+
+    def getLosses
+        @losses
+    end
+
 end
+
+# if $PROGRAM_NAME == __FILE__
+#     p1 = Player.new('niggar')
+#     p2 = Player.new('wiggar')
+#     myGame = Game.new(p1, p2)
+# end
